@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>
+            Password Form Validation Project
+        </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                   <div><H3>PASSWORD FUN</H3></div> 
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-md-auto">
+                    <form>
+                        <div class="form-group">
+                            <label for="passwordInput">Enter Your Password</label>
+                            <input type="password" class="form-control" id="passwordInput"/>
+                            <button id="loginButton" class="mt-2 btn btn-secondary form-control" >Login</button>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="upperCaseHint" class="alert alert-secondary">
+                                <div class="row">
+                                    <div class="col"><i id="icUC" class="material-icons">cancel</i></div>
+                                    <div class="col-8">Your password must have an Uppercase letter</div>
+                                </div>
+                            </div>
+                            <div id="lowerCaseHint" class="alert alert-secondary">
+                                    <div class="row">
+                                            <div class="col"><i id="icLW" class="material-icons">cancel</i></div>
+                                            <div class="col-8">Your password must have a Lowercase letter</div>
+                                        </div>
+                            </div>
+                            <div id="numberHint" class="alert alert-secondary">
+                                    <div class="row">
+                                            <div class="col"><i id="icD" class="material-icons">cancel</i></div>
+                                            <div class="col-8">Your password must have a digit</div>
+                                        </div>
+                            </div>
+                            <div id="lengthHint" class="alert alert-secondary">
+                                    <div class="row">
+                                            <div class="col"><i id="icL" class="material-icons">cancel</i></div>
+                                            <div class="col-8">Your password must have 8 characters minimum</div>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+            
+        </div>
+        <script type="text/javascript">
+            function checkForm(){
+                var passwordField = $('#passwordInput');        
+                var loginBtn = $('#loginButton');
+
+                var upperCasetest = checkUpperCase(passwordField);
+                var lowerCaseTest = checkLowerCase(passwordField);
+                var digitCaseTest = checkDigit(passwordField);
+                var lengthCaseTest = checkLength(passwordField);
+
+
+                if(upperCasetest && lowerCaseTest && digitCaseTest && lengthCaseTest ){
+                    loginBtn.removeAttr("disabled");
+                    loginBtn.removeClass('btn-secondary').addClass('btn-success');
+                    passwordField.removeClass('border-danger').addClass('border-success');
+                }else{
+                    loginBtn.attr("disabled","disabled");
+                    passwordField.addClass('border border-danger');
+                }
+            }
+
+            function checkUpperCase(passwordField){
+                var iconUC = $('#icUC');
+                var upperCaseHint = $('#upperCaseHint');
+                var regex = /^(?=.*[A-Z]).+$/;
+
+                if( regex.test(passwordField.val()) ) {
+                    iconUC.html("check_circle")               ;
+                    upperCaseHint.removeClass('alert-secondary alert-warning').addClass('alert-success');
+                    return true;
+                }
+                iconUC.html("cancel")               ;
+                upperCaseHint.removeClass('alert-secondary').addClass('alert-warning');
+                return false;
+            }
+            function checkLowerCase(passwordField){
+                var lowerCaseHint = $('#lowerCaseHint');
+                var iconLC = $('#icLW');
+                var regex = /^(?=.*[a-z]).+$/;
+
+                if( regex.test(passwordField.val()) ) {
+                    iconLC.html("check_circle")               ;
+                    lowerCaseHint.removeClass('alert-secondary alert-warning').addClass('alert-success');
+                    return true;
+                }
+                iconLC.html("cancel")               ;
+                lowerCaseHint.removeClass('alert-secondary').addClass('alert-warning');
+                return false;
+            }
+            function checkDigit(passwordField){
+                var numberHint = $('#numberHint');
+                var iconD = $('#icD');
+                var regex = /^(?=.*[0-9]).+$/;
+
+                if( regex.test(passwordField.val())) {
+                    iconD.html("check_circle")               ;
+                    numberHint.removeClass('alert-secondary alert-warning').addClass('alert-success');
+                    return true;}
+                    iconD.html("cancel");
+                numberHint.removeClass('alert-secondary').addClass('alert-warning');
+                return false;
+            }
+            function checkLength(passwordField){
+                var lengthHint = $('#lengthHint');
+                var iconLN = $('#icL');
+                var length = document.getElementById("passwordInput").value.length; 
+
+                if(length>8){
+                    iconLN.html("check_circle")               ;
+                    lengthHint.removeClass('alert-secondary alert-warning').addClass('alert-success');
+                    return true;
+                }
+                iconLN.html("cancel");
+                lengthHint.removeClass('alert-secondary').addClass('alert-warning');
+                return false;
+            }
+        </script>
+        <script>
+                $('#passwordInput').keyup(function(event){
+                    event.preventDefault();
+                    checkForm();
+                });
+            </script>
+    </body>
+</html>
